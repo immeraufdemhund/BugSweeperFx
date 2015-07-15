@@ -1,5 +1,6 @@
 package bugsweeper.models;
 
+import bugsweeper.GameCompletedEventListener;
 import bugsweeper.bugLogic.BugPlanter;
 import bugsweeper.bugLogic.planters.RandomBugPlanter;
 
@@ -14,16 +15,12 @@ public class CellGrid {
     private static final BugPlanter DEFAULT_BUG_PLANTER = new RandomBugPlanter();
 
     private final List<GridSquare> _cells;
-    private final int _columns;
-    private final int _rows;
 
     private BugPlanter bugPlanter = DEFAULT_BUG_PLANTER;
+    private GameCompletedEventListener gameCompletedEventListener;
 
-    public CellGrid(int columns, int rows) {
-        _rows = rows;
-        _columns = columns;
-
-        _cells = Collections.unmodifiableList(generateGridSquaresList(columns * rows));
+    public CellGrid(int cellCount) {
+        _cells = Collections.unmodifiableList(generateGridSquaresList(cellCount));
     }
 
     private List<GridSquare> generateGridSquaresList(int squareCount) {
@@ -34,8 +31,11 @@ public class CellGrid {
         return temp;
     }
 
-    public void uncoverSquare(int column, int row) {
-        _cells.get(column + (row * _rows)).uncoverSquare();
+    public void uncoverSquare(int index) {
+        GridSquare cell = _cells.get(index);
+        cell.uncoverSquare();
+        if(cell.isBug())
+            gameCompletedEventListener.GameLost();
     }
 
     public void setBugCount(int bugCount) {
@@ -45,5 +45,9 @@ public class CellGrid {
 
     public void setPlanter(BugPlanter planter) {
         bugPlanter = planter;
+    }
+
+    public void setGameCompletedEventListener(GameCompletedEventListener gameCompletedEventListener) {
+        this.gameCompletedEventListener = gameCompletedEventListener;
     }
 }
