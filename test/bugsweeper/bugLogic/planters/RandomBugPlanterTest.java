@@ -1,6 +1,6 @@
 package bugsweeper.bugLogic.planters;
 
-import bugsweeper.models.GridSquare;
+import bugsweeper.models.Tile;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -25,22 +25,22 @@ public class RandomBugPlanterTest {
 
     private static void plant_X_Bugs_Y_Times_thenCountIsBugIndex(int squareCount, int times, int[] indexCount) {
         for (int i = 0; i < times; i++) {
-            List<GridSquare> grid = generateGridSquares(squareCount);
+            List<Tile> grid = generateGridSquares(squareCount);
             planter.Plant(grid, 1);
             countIsBug(grid, indexCount);
         }
     }
 
-    private static List<GridSquare> generateGridSquares(int generateCount) {
-        List<GridSquare> grid = new ArrayList<>(generateCount);
+    private static List<Tile> generateGridSquares(int generateCount) {
+        List<Tile> grid = new ArrayList<>(generateCount);
         for (int i = 0; i < generateCount; i++) {
-            grid.add(new GridSquare());
+            grid.add(new Tile());
         }
 
         return grid;
     }
 
-    private static void countIsBug(List<GridSquare> grid, int[] indexCount) {
+    private static void countIsBug(List<Tile> grid, int[] indexCount) {
         for (int i = 0; i < grid.size(); i++) {
             if (grid.get(i).isBug()) {
                 indexCount[i]++;
