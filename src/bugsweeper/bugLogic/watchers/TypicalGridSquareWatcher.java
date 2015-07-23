@@ -36,17 +36,32 @@ public class TypicalGridSquareWatcher extends PlayAreaLayout {
 
     @Override
     public void setSurroundingBugCount(List<Tile> grid) {
-        if(grid.get(0).isBug()){
-            grid.get(1).increaseSurroundingBugCount();
-            grid.get(3).increaseSurroundingBugCount();
-            grid.get(4).increaseSurroundingBugCount();
+        System.out.println("setSurroundingBugCount()+");
+        for (int i = 0; i < grid.size(); i++) {
+            if(grid.get(i).isBug()){
+                System.out.println("bug at index " + i);
+                //check row above
+                checkRow(grid, i-_columns);
+                //check row
+                checkRow(grid, i);
+
+                checkRow(grid, i+_columns);
+            }
         }
-        if(grid.get(1).isBug()){
-            grid.get(0).increaseSurroundingBugCount();
-            grid.get(2).increaseSurroundingBugCount();
-            grid.get(3).increaseSurroundingBugCount();
-            grid.get(4).increaseSurroundingBugCount();
-            grid.get(5).increaseSurroundingBugCount();
+        System.out.println("setSurroundingBugCount()-");
+    }
+
+    private void checkRow(List<Tile> grid, int i) {
+        System.out.println("checking around index " + i);
+        if (i < 0) return;
+
+        if(i-1 >= 0){
+            System.out.println("Increase " + (i-1));
+            grid.get(i-1).increaseSurroundingBugCount();
+        }
+        if(i+1 < _columns){
+            System.out.println("Increase " + (i+1));
+            grid.get(i+1).increaseSurroundingBugCount();
         }
     }
 }

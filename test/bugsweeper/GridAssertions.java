@@ -32,10 +32,9 @@ public class GridAssertions {
 
     public void haveSurroundingBugCount(int expectedCount){
         _expectedCount = expectedCount;
-        _gridSquares.filter(this::getSquaresWithWrongSurroundingBugCount).forEach(gridSquare -> {
-            fail("Not all squares had surrounding bug count of " + expectedCount +
-                    "at least one had a count of " + gridSquare.getSurroundBugCount());
-        });
+        _gridSquares.filter(this::getSquaresWithWrongSurroundingBugCount).forEach(gridSquare ->
+                fail("Not all squares had surrounding bug count of " + expectedCount +
+                " at least one had a count of " + gridSquare.getSurroundBugCount()));
 
     }
     private boolean getSquaresWithWrongSurroundingBugCount(Tile index){
